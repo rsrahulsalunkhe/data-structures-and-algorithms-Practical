@@ -1,92 +1,131 @@
-#include <iostream>
+#include<iostream>
 using namespace std;
 
-void insertion(int A[], int n, int Pos, int ITEM)
+void addElement(int arr[], int &size)
 {
-    for (int i = n; i >= Pos; i--)
-        A[i + 1] = A[i];
-    A[Pos] = ITEM;
-    n = n + 1;
+    int item;
+    cout << "Enter an element to be added: ";
+    cin >> item;
+
+    arr[size] = item;
+    size++;
 }
 
-void deletee(int A[], int &N, int Pos)
+void deleteElement(int arr[], int& size)
 {
-    int item = A[Pos];
-    for (int i = Pos; i < N; i++)
-        A[i] = A[i + 1];
-    N = N - 1;
-    cout << item << " is deleted from the array.";
+    int pos;
+    cout << "Enter the position of the element to delete (0-" << size - 1 << "): ";
+    cin >> pos;
+
+    if (pos < 0 || pos >= size)
+    {
+        cout << "Invalid position." << endl;
+        return;
+    }
+
+    for (int i = pos; i < size - 1; i++)
+    {
+        arr[i] = arr[i + 1];
+    }
+
+    size--;
+    cout << "Element deleted successfully." << endl;
 }
 
-void update(int A[], int n, int pos, int item)
+void updateElement(int arr[], int& size)
 {
-    A[pos] = item;
-    cout << "Array is updated" << endl;
+    int pos;
+    cout << "Enter the position of the element to update (0-" << size - 1 << "): ";
+    cin >> pos;
+
+    if (pos < 0 || pos >= size)
+    {
+        cout << "Invalid position." << endl;
+        return;
+    }
+
+    int newValue;
+    cout << "Enter the new value: ";
+    cin >> newValue;
+
+    arr[pos] = newValue;
+    cout << "Element updated successfully." << endl;
 }
 
-void print(int b[], int N)
+void displayElement(int arr[], int& size)
 {
-    for (int i = 0; i < N; i++)
-        cout << b[i] << " ";
+    if (size == 0)
+    {
+        cout << "The array is empty." << endl;
+        return;
+    }
+
+    cout << "Array elements: ";
+    for (int i = 0; i < size; i++)
+    {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
 }
 
 int main()
 {
-    int n;
-    cout << "Enter the size of array: ";
-    cin >> n;
+    const int MAX_SIZE = 10;
+    int arr[MAX_SIZE];
+    int size = 0;
 
-    int* arr = new int[n];
-    cout << "Enter the elements of array : ";
-    for (int i = 0; i < n; i++) {
-        cin >> arr[i];
-    }
-
-    int pos, item, choice, delitem;
-    char ch;
-
+    int ch;
     do
     {
-        cout << "List of Operations" << endl;
-        cout << "1. Insert Element \n2. Delete Element \n3. Update Element \n4. Print Element" << endl;
-        cout << "Enter your choice:";
-        cin >> choice;
-        switch (choice)
+        cout << "List of operations" << endl;
+        cout << "1. Add element 2. Delete element 3. Update element 4. Display 5. Exit" << endl;
+
+        cout << "Enter your choice: ";
+        cin >> ch;
+
+        switch (ch)
         {
         case 1:
-            cout << "Enter Position:";
-            cin >> pos;
-            cout << "Enter Element:";
-            cin >> item;
-            insertion(arr, n, pos, item);
+            if (size >= MAX_SIZE)
+            {
+                cout << "The array is full." << endl;
+            }
+            else
+            {
+                addElement(arr, size);
+            }
             break;
         case 2:
-            cout << "Enter position of element to be deleted: ";
-            cin >> pos;
-            if (pos == -1)
+            if (size == 0)
             {
-                cout << "Element not found";
+                cout << "The array is empty." << endl;
             }
-            deletee(arr, n, pos);
+            else
+            {
+                deleteElement(arr, size);
+            }
             break;
         case 3:
-            cout << "Enter position of element to be update : ";
-            cin >> pos;
-            cout << "Enter item to be update : ";
-            cin >> item;
-            update(arr, n, pos, item);
+            if (size == 0)
+            {
+                cout << "The array is empty." << endl;
+            }
+            else
+            {
+                updateElement(arr, size);
+            }
             break;
         case 4:
-            print(arr, n);
+            displayElement(arr, size);
+            break;
+        case 5:
+            cout << "Exiting..." << endl;
             break;
         default:
-            cout << "wrong choice";
+            cout << "Invalid choice." << endl;
+            break;
         }
-        cout << "\nDo you want to continue?";
-        cout << "(Press y/n)";
-        cin >> ch;
-    } while (ch == 'y');
+    } while (ch != 5);
 
     return 0;
-
 }
