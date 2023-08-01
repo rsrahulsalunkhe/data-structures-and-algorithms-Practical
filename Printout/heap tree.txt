@@ -1,0 +1,201 @@
+Name : Rahul Suryakant Salunkhe
+Class : MCA sem - II
+Roll No. : 55
+                                                                              
+Program : Implementation of programs based on Heap Tree.
+                                                                               
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class MaxHeap {
+private:
+    vector<int> heap;
+
+    void maxHeapify(int index) {
+        int largest = index;
+        int left = 2 * index + 1;
+        int right = 2 * index + 2;
+
+        if (left < heap.size() && heap[left] > heap[largest])
+            largest = left;
+
+        if (right < heap.size() && heap[right] > heap[largest])
+            largest = right;
+
+        if (largest != index) {
+            swap(heap[index], heap[largest]);
+            maxHeapify(largest);
+        }
+    }
+
+public:
+    void insert(int value) {
+        heap.push_back(value);
+
+        int index = heap.size() - 1;
+        while (index > 0 && heap[(index - 1) / 2] < heap[index]) {
+            swap(heap[index], heap[(index - 1) / 2]);
+            index = (index - 1) / 2;
+        }
+    }
+
+    void deleteMax() {
+        if (heap.empty()) return;
+
+        swap(heap[0], heap.back());
+        heap.pop_back();
+        maxHeapify(0);
+    }
+
+    int peekMax() const {
+        if (heap.empty())
+            throw runtime_error("Heap is empty.");
+        return heap[0];
+    }
+
+    int size() const {
+        return heap.size();
+    }
+
+    bool isEmpty() const {
+        return heap.empty();
+    }
+
+
+    void displayHeap() const {
+        if (heap.empty()) {
+            cout << "Heap is empty." << endl;
+            return;
+        }
+
+        cout << "Max-Heap: ";
+        for (int i : heap)
+            cout << i << " ";
+        cout << endl;
+    }
+};
+
+int displayMenu() {
+    int choice;
+    cout << "\nMax-Heap Operations:" << endl;
+    cout << "1. Insert element" << endl;
+    cout << "2. Delete maximum element" << endl;
+    cout << "3. Get maximum element" << endl;
+    cout << "4. Display Max-Heap" << endl;
+    cout << "5. Exit" << endl;
+    cout << "Enter your choice: ";
+    cin >> choice;
+    return choice;
+}
+
+int main() {
+    MaxHeap maxHeap;
+
+    int choice;
+    do {
+        choice = displayMenu();
+        switch (choice) {
+            case 1: {
+                int value;
+                cout << "Enter the element to insert: ";
+                cin >> value;
+                maxHeap.insert(value);
+                break;
+            }
+            case 2:
+                maxHeap.deleteMax();
+                break;
+            case 3: {
+                if (maxHeap.isEmpty())
+                    cout << "Heap is empty." << endl;
+                else
+                    cout << "Maximum element: " << maxHeap.peekMax() << endl;
+                break;
+            }
+            case 4:
+                maxHeap.displayHeap();
+                break;
+            case 5:
+                cout << "Exiting..." << endl;
+                break;
+            default:
+                cout << "Invalid choice. Please try again." << endl;
+        }
+    } while (choice != 5);
+
+    return 0;
+}
+
+                                                                              
+Output :
+Max-Heap Operations:
+1. Insert element
+2. Delete maximum element
+3. Get maximum element
+4. Display Max-Heap
+5. Exit
+Enter your choice: 1
+Enter the element to insert: 20
+
+Max-Heap Operations:
+1. Insert element
+2. Delete maximum element
+3. Get maximum element
+4. Display Max-Heap
+5. Exit
+Enter your choice: 1
+Enter the element to insert: 10
+
+Max-Heap Operations:
+1. Insert element
+2. Delete maximum element
+3. Get maximum element
+4. Display Max-Heap
+5. Exit
+Enter your choice: 4
+Max-Heap: 20 10
+
+Max-Heap Operations:
+1. Insert element
+2. Delete maximum element
+3. Get maximum element
+4. Display Max-Heap
+5. Exit
+Enter your choice: 1
+Enter the element to insert: 50
+
+Max-Heap Operations:
+1. Insert element
+2. Delete maximum element
+3. Get maximum element
+4. Display Max-Heap
+5. Exit
+Enter your choice: 3
+Maximum element: 50
+
+Max-Heap Operations:
+1. Insert element
+2. Delete maximum element
+3. Get maximum element
+4. Display Max-Heap
+5. Exit
+Enter your choice: 2
+
+Max-Heap Operations:
+1. Insert element
+2. Delete maximum element
+3. Get maximum element
+4. Display Max-Heap
+5. Exit
+Enter your choice: 4
+Max-Heap: 20 10
+
+Max-Heap Operations:
+1. Insert element
+2. Delete maximum element
+3. Get maximum element
+4. Display Max-Heap
+5. Exit
+Enter your choice: 5 
+Exiting...
